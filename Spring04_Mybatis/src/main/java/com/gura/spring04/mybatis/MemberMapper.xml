@@ -21,8 +21,8 @@
 	
 	<update id="update" parameterType="com.gura.spring04.member.dto.MemberDto" >
 		UPDATE member
-		SET name=#{name}, addr=#{addr}
-		WHERE num=#{num}	
+		SET name = #{name}, addr = #{addr}
+		WHERE num = #{num}	
 	</update>
 	
 	<select id="getData" parameterType="int" resultType="com.gura.spring04.member.dto.MemberDto">

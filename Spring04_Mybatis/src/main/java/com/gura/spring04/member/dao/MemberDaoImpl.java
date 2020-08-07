@@ -18,6 +18,9 @@ public class MemberDaoImpl implements MemberDao {
 	@Autowired
 	private SqlSession session;
 	
+	
+	
+	
 	@Override
 	public void insert(MemberDto dto) {
 		/*
