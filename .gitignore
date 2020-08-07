@@ -1,0 +1,28 @@
+Servers
+*/WebContent/Images
+*/.settings
+*/.project
+.metadata
+Test/.classpath
+Test/.gitignore
+Test/src/test/friend/dao/friendDao.java
+Test/src/test/friend/dto/friendDto.java
+Test/src/test/util/DbcpBean.java
+Test/WebContent/META-INF/MANIFEST.MF
+Test/WebContent/WEB-INF/web.xml
+Web05_Scope/.tern-project
+Web07_Login/WebContent/11차.txt
+Web07_Login/WebContent/11test/test.jsp
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar

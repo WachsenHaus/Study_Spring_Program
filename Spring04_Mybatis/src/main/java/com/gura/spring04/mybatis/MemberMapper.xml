@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 자동완성 기능을 사용할 수 있게 !DOCTYPE을 작성한다. -->
+
+<!-- namespace="com.gura.spring04.mybatis.MemberMapper"를 member로 수정 -->
+<mapper namespace="member">
+
+	<!-- 파라미터를 memberDto로 가지고 와서 insert -->
+	<insert id="insert"  parameterType="com.gura.spring04.member.dto.MemberDto" >
+		INSERT INTO member
+		(num, name, addr)
+		VALUES(member_seq.NEXTVAL, #{name}, #{addr})
+		<!-- 자동 바인딩 조건은 컬럼명과 MemberDto 필드명이 동일해야한다. -->
+	</insert>
+
+
+	<delete id="delete" parameterType="int" >
+		DELETE FROM member
+		WHERE num = #{num}
+	</delete>
+	
+	<update id="update" parameterType="com.gura.spring04.member.dto.MemberDto" >
+		UPDATE member
+		SET name=#{name}, addr=#{addr}
+		WHERE num=#{num}	
+	</update>
+	
+	<select id="getData" parameterType="int" resultType="com.gura.spring04.member.dto.MemberDto">
+		SELECT num, name, addr
+		FROM member
+		WHERE num = #{num}	
+	</select>
+	
+	<select id="getList" resultType="com.gura.spring04.member.dto.MemberDto">
+		SELECT num,name,addr
+		FROM member
+		ORDER BY num asc
+	</select>
+</mapper>

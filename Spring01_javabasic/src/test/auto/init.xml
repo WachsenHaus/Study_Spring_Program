@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- e1=new Engine(); -->
+
+<!-- Car 개체를 bean으로 만드려고한다면? -->
+<bean id="car1" class = "test.auto.Car">
+<!-- engine이라는 구성요소에다가 e1이라는 참조값을 할당합니다. -->
+	<constructor-arg name="engine" ref="e1"/>
+
+</bean>
+</beans>
