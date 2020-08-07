@@ -32,7 +32,7 @@
 	</select>
 	
 	<select id="getList" resultType="com.gura.spring04.member.dto.MemberDto">
-		SELECT num,name,addr
+		SELECT num, name, addr
 		FROM member
 		ORDER BY num asc
 	</select>
