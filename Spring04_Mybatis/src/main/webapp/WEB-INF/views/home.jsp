@@ -17,7 +17,42 @@
 		<li><a href="json03.do">json 응답03</a></li>
 		<li><a href="json04.do">json 응답04</a></li>
 		<li><a href="json05.do">json 응답05</a></li>
+		<li><a href="json06.do">json 응답06</a></li>
+		<li><a href="json07.do">json 응답07</a></li>
+		<li><a href="json08.do">json 응답08</a></li>
+		<li><a href="xml01.do">xml1 응답08</a></li>
+		<li><a href="xml02.do">xml2 응답09</a></li>
 	</ul>
+	<button id="testBtn">ajax 테스트(콘솔확인)</button>
+	<button id="testBtn2">ajax 테스트(콘솔확인) - no jquery</button>
+	<script src="resources/js/jquery-3.5.1.js"></script>
+	<script>
+		$("#testBtn").on("click",function() {
+		$.ajax({
+			url: "json08.do",
+			method: "GET",
+			success:function(data){
+			//data는 plain object or array이다.
+			console.log(data);
+			}
+		})}) ;
+		
+	</script>
+	<script>
+		document.getElementById("testBtn2").addEventListener("click",function(e){
+		e.preventDefault();
+		fetch('json08.do',{
+			method: 'GET',
+		}).then(function (response){
+			return response.json();
+		}).then(function (text){
+			console.log(text);
+		}).catch(function(error){
+			console.error(error);
+		});
+		});
+	</script>
+	
 </body>
 </html>
 

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gura.spring04.member.dto.MemberDto;
+
 @Controller
 public class JSONTestController {
 
@@ -65,4 +67,37 @@ public class JSONTestController {
 			map.put("hobby", hobby);
 			return map;
 		}
+		
+		@RequestMapping("/json06")
+		@ResponseBody
+		public List<Map<String, Object>> json06(){
+			Map<String, Object> map1 = new HashMap<>();
+			map1.put("num", 1);
+			map1.put("name","김구라");
+			Map<String, Object> map2 = new HashMap<>();
+			map2.put("num", 2);
+			map2.put("name","해골");
+			
+			List<Map<String, Object>> list = new ArrayList<>();
+			list.add(map1);
+			list.add(map2);
+			return list;
+		}
+		
+		@RequestMapping("/json07")
+		@ResponseBody //dto를 알아서 json형태로 변환해준다. 누가 ? jackson 라이브러리가.
+		public MemberDto json07() {
+			MemberDto dto = new MemberDto(1,"김구라","노랑진");
+			return dto;
+		}
+		
+		@RequestMapping("/json08")
+		@ResponseBody //dto를 알아서 json형태로 변환해준다. 누가 ? jackson 라이브러리가.
+		public List<MemberDto> json08() {
+			List<MemberDto> list = new ArrayList<>();
+			list.add(new MemberDto(1, "김구라", "노량진"));
+			list.add(new MemberDto(2,"해골", "행신동"));
+			return list;
+		}
+		
 }
