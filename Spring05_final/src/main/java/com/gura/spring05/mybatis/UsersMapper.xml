@@ -19,4 +19,16 @@
 		FROM users
 		WHERE id=#{id} and pwd=#{pwd}
 	</select>
+	
+	<select id="getData" parameterType="string" resultType="usersDto">
+		SELECT id,pwd,email,profile,
+			TO_CHAR(regdate, 'YY.MM.DD HH24"시"MM"분"') AS regdate
+		FROM users
+		WHERE id=#{id}
+	</select>
+	
+	<delete id="delete" parameterType="string">
+		DELETE from users
+		WHERE id = #{id}
+	</delete>
 </mapper> 

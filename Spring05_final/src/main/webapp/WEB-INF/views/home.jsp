@@ -5,6 +5,7 @@
 <html>
 <head>
 	<title>Home</title>
+	<link rel="stylesheet" href="resources/css/bootstrap.css" />
 </head>
 <body>
 	<div class="container">
@@ -15,6 +16,7 @@
 			</c:when>
 			<c:otherwise>
 				<strong>${id }</strong>님 로그인중...
+				<a href="users/private/lnfo.do">${id }</a>
 				<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 			</c:otherwise>
 		</c:choose>

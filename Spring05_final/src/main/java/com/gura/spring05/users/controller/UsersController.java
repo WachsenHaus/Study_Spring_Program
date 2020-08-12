@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,4 +88,20 @@ public class UsersController {
 		return "redirect:/home.do";
 	}
 	
+	@RequestMapping("/users/private/lnfo")
+	public ModelAndView info(HttpServletRequest request, ModelAndView mView) {
+		service.getInfo(request.getSession(), mView);
+		mView.setViewName("users/private/info");
+		return mView;
+	}
+
+	@RequestMapping("/users/private/delete")
+	public ModelAndView delete(HttpServletRequest request,ModelAndView mView) {
+		mView.addObject("id",request.getSession().getAttribute("id"));
+		//서비스에서 삭제 동작을한다.
+		service.deleteUsers(request.getSession());
+		//페이지를 이동한다.
+		mView.setViewName("users/private/delete");
+		return mView;
+	}
 }

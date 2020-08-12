@@ -6,5 +6,7 @@ public interface UsersDao {
 	public boolean isExist(String inputId);
 	public boolean insert(UsersDto dto);
 	public boolean isValid(UsersDto dto);
+	public UsersDto getData(String id);
+	public void delete(String id);
 	
 }
