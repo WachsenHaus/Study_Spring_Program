@@ -2,8 +2,10 @@ package com.gura.spring05.users.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gura.spring05.users.dto.UsersDto;
@@ -16,5 +18,8 @@ public interface UsersService {
 			HttpSession session);
 	
 	public void deleteUsers(HttpSession session);
+	
+	
+	public Map<String,Object> saveProfileImage(MultipartFile image, HttpServletRequest request);
 	
 }

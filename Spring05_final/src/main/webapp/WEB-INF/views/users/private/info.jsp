@@ -15,6 +15,7 @@
 		border-radius: 50%;
 	}
 </style>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.css" />
 </head>
 <body>
 <div class="container">
