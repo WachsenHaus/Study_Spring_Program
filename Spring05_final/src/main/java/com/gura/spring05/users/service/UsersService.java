@@ -22,4 +22,6 @@ public interface UsersService {
 	
 	public Map<String,Object> saveProfileImage(MultipartFile image, HttpServletRequest request);
 	
+	public void updateUser(HttpSession session, UsersDto dto);
+	public void updateUserPwd(HttpSession session, UsersDto dto, ModelAndView mView);
 }

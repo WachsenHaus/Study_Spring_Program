@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -89,7 +88,7 @@ public class UsersController {
 		return "redirect:/home.do";
 	}
 	
-	@RequestMapping("/users/private/lnfo")
+	@RequestMapping("/users/private/info")
 	public ModelAndView info(HttpServletRequest request, ModelAndView mView) {
 		service.getInfo(request.getSession(), mView);
 		mView.setViewName("users/private/info");
@@ -124,7 +123,32 @@ public class UsersController {
 		Map<String,Object> map = service.saveProfileImage(image, request);
 		//{"imageSrc" : /upload/xxx.jpg"} 형식의 json 문자열을 출력하기 위해
 		// Map을 @Responsebody로 리턴해준다.
-		
 		return map;
+	}
+	
+	
+	//개인 정보 수정 반영 요청 처리
+	@RequestMapping("/users/private/update")
+	public ModelAndView update(HttpServletRequest request, UsersDto dto, ModelAndView mView)
+	{
+		service.updateUser(request.getSession(), dto);
+		mView.setViewName("redirect:/users/private/info.do");
+		return mView;
+	}
+	
+	@RequestMapping("/users/private/pwd_updateform")
+	public ModelAndView pwdUpdateForm(ModelAndView mView) {
+		mView.setViewName("users/private/pwd_updateform");
+		return mView;
+	}
+	
+	@RequestMapping("/users/private/pwd_update")
+	public ModelAndView pwdUpdate(ModelAndView mView, UsersDto dto, HttpServletRequest request) {
+		
+		//service개체를 이요해서 새로운 비밀번호를 수정한다.
+		service.updateUserPwd(request.getSession(), dto, mView);
+		//view페이지로 forward이동해서 응답.
+		mView.setViewName("users/private/pwd_update");
+		return mView;
 	}
 }

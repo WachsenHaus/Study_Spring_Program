@@ -16,12 +16,17 @@
 			</c:when>
 			<c:otherwise>
 				<strong>${id }</strong>님 로그인중...
-				<a href="users/private/lnfo.do">${id }</a>
+				<a href="users/private/info.do">${id }</a>
 				<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 			</c:otherwise>
 		</c:choose>
 		<h1>인덱스 페이지 입니다.</h1>
 		<p>Spring Framework 동작중...</p>
+		
+		<ul>
+			<li><a href="file/list.do">자료실 목록 보기</a></li>
+			<li><a href="cafe/list.do">카페글 목록 보기</a></li>
+		</ul>
 	</div>
 </body>
 </html>
