@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,6 +58,24 @@ public class CafeController {
 		cafeService.delete(num,request);
 		return "redirect:/cafe/list.do";
 	}
+	
+	
+	@RequestMapping(value = "/cafe/private/comment_insert",method = RequestMethod.POST)
+	public ModelAndView commentInsert(HttpServletRequest request, ModelAndView mView,@RequestParam int ref_group) {
+		//새 댓글을 저장하고
+		cafeService.saveComment(request);
+		//보고있던 글 자세히 보기로 다시 리다이렉트 이동시킨다.
+		mView.setViewName("redirect:/cafe/detail.do?num="+ref_group);
+		return mView;
+	}
+	
+    @RequestMapping("/cafe/private/comment_delete")
+    public ModelAndView commentDelete(HttpServletRequest request,
+            ModelAndView mView, @RequestParam int ref_group) {
+        cafeService.deleteComment(request);
+        mView.setViewName("redirect:/cafe/detail.do?num="+ref_group);
+        return mView;
+    }
 }
 
 

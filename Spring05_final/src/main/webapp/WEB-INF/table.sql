@@ -26,12 +26,12 @@ create SEQUENCE board_cafe_seq;
 
 
 create table board_cafe_comment(
-	num NUMBER PRIMARY KEY,
-	writer VARCHAR2(100),
-	content VARCHAR2(500),
-	target_id VARCHAR2(100),
-	ref_group NUMBER,
-	comment_group NUMBER,
+	num NUMBER PRIMARY KEY, --댓글의 글번호
+	writer VARCHAR2(100), --댓글 작성자의 아이디
+	content VARCHAR2(500), --댓글 내용
+	target_id VARCHAR2(100), -- 댓글의 대상자 아이디
+	ref_group NUMBER, -- 대상 글
+	comment_group NUMBER, -- 대댓글일경우 댓글의 번호 / 원댓글은 자기 자신의 댓글번호.
 	deleted CHAR(3) DEFAULT 'no',
 	regdate DATE
 );
