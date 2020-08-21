@@ -56,6 +56,4 @@ public class WritingAspect {
 	public void end() {
 		System.out.println("다 사용한 pen을 마무리해요.");
 	}
-	
-	
 }
