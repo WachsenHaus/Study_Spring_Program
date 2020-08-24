@@ -11,17 +11,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.gura.spring05.users.dto.UsersDto;
 
 public interface UsersService {
-	public Map<String, Object> isExistId(String id);
-	public boolean addUser(UsersDto dto);
-	public void getInfo(HttpSession session, ModelAndView mView);
-	public void loginProcess(UsersDto dto,ModelAndView mView,
+	public Map<String, Object> isExistId(String inputId);
+	public void addUser(UsersDto dto);
+	public void loginProcess(UsersDto dto, ModelAndView mView,
 			HttpSession session);
-	
-	public void deleteUsers(HttpSession session);
-	
-	
-	public Map<String,Object> saveProfileImage(MultipartFile image, HttpServletRequest request);
-	
+	public void getInfo(HttpSession session, ModelAndView mView);
+	public void deleteUser(HttpSession session);
+	public Map<String, Object> saveProfileImage(HttpServletRequest request,
+			MultipartFile mFile);
 	public void updateUser(HttpSession session, UsersDto dto);
-	public void updateUserPwd(HttpSession session, UsersDto dto, ModelAndView mView);
+	public void updateUserPwd(HttpSession session, UsersDto dto,
+			ModelAndView mView);
 }
+
