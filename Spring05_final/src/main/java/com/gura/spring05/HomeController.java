@@ -12,4 +12,12 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping("/angularjs/test01")
+	public String test01() {
+		return "test01";
+	}
+	@RequestMapping("../angularjs/test01")
+	public String test02() {
+		return "test01";
+	}
 }
