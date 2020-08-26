@@ -32,6 +32,10 @@
 	        <li><a href="angularjs/test03.jsp">angularjs3 테스트</a></li>
 	        <li><a href="angularjs/test04.jsp">angularjs4 테스트</a></li>
 	        <li><a href="angularjs/test05.jsp">angularjs5 테스트</a></li>
+	        <li><a href="angularjs/test06.jsp">angularjs6 테스트</a></li>
+	        <li><a href="angularjs/test07.jsp">angularjs7 테스트</a></li>
+	        <li><a href="angularjs/test08.jsp">angularjs8 테스트</a></li>
+	        <li><a href="angularjs/test09.jsp">angularjs9 테스트</a></li>
 		</ul>
 	</div>
 </body>
