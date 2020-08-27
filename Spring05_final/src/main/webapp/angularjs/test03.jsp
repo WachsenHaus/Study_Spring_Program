@@ -16,7 +16,7 @@
 		<button class="btn {{a}}">버튼2</button>
 		<button class="btn {{msg}}">버튼3</button>
 		<button ng-class="['btn','btn-primary']">버튼4</button>
-		<button ng-class="{'btn':true, 'btn-primary':true}">버튼5</button>
+		<button ng-class="{'btn':true, 'btn-primary':{{isLarge}}}">버튼5</button>
 		<br />
 		<input type="checkbox"  ng-model = "isLarge"/>
 		<button class="btn btn-success" ng-class="{'btn-lg' : isLarge}">버튼6</button>
