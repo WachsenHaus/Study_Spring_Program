@@ -1,19 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 <head>
 <meta charset="UTF-8">
 <title>/users/signup_form.jsp</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.css" />
+<script src="${pageContext.request.contextPath }/resources/js/angular.min.js"></script>
+<script>
+	//myApp 이라는 모듈 만들기 
+	var myApp=angular.module("myApp", []);
+	//formCtrl 이라는 컨트롤러 만들기 
+	myApp.controller("formCtrl", function($scope, $http){
+		//angularjs  가 초기화 될때 최초 한번만 호출된다.
+		$scope.canUseId=false; //입력한 아이디 사용가능 여부 
+		$scope.idChanged=function(){
+			$http({
+				url:"checkid.do",
+				method:"get",
+				params:{inputId:$scope.id}
+			})
+			.success(function(data){
+				//data => {isExist:true} or {isExist:false} 인 object 이다.
+				//입력한 아이디가 DB 에 존재 하지 않아야지 사용할수 있다.
+				$scope.canUseId=!data.isExist;
+			});
+		};
+	});
+</script>
 </head>
 <body>
-<div class="container">
+<div class="container" ng-controller="formCtrl">
 	<h1>회원 가입 폼 입니다.</h1>
-	<form action="signup.do" method="post" id="myForm">
+	<p>아이디 사용가능 여부 : {{canUseId}}</p>
+	<form action="signup.do" method="post" name="myForm" novalidate>
 		<div class="form-group">
 			<label for="id">아이디</label>
-			<input class="form-control" type="text" name="id" id="id"/>
+			<input class="form-control" type="text" name="id" id="id"
+				ng-model="id"
+				ng-required="true"
+				ng-pattern="/^[a-z].{4,9}$/"
+				ng-class="{'is-invalid': (myForm.id.$invalid || !canUseId) && myForm.id.$dirty,'is-valid': myForm.id.$valid && canUseId}"
+				ng-change="idChanged()"/>
 			<small class="form-text text-muted">영문자 소문자로 시작하고 최소 5글자~10글자 이내로 입력 하세요.</small>
 			<div class="invalid-feedback">사용할수 없는 아이디 입니다.</div>
 		</div>
@@ -36,9 +64,8 @@
 		<button class="btn btn-danger" type="reset">Reset</button>
 	</form>
 </div>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.5.1.js"></script>
 <script>
-
+	/*
 	//아이디를 검증할 정규 표현식
 	var reg_id=/^[a-z].{4,9}$/;
 	//비밀번호를 검증할 정규 표현식
@@ -125,10 +152,10 @@
 		}
 	});
 	
+	*/
 </script>
 </body>
 </html>
-
 
 
 
