@@ -24,7 +24,17 @@
 				//data => {isExist:true} or {isExist:false} 인 object 이다.
 				//입력한 아이디가 DB 에 존재 하지 않아야지 사용할수 있다.
 				$scope.canUseId=!data.isExist;
+				$scope.myForm.id.$valid = $scope.canUseId;
+				$scope.myForm.id.$invalid =!$scope.canUseId;
 			});
+		};
+		//비밀번호 입력란을 입력했을 때 호출되는 함수
+		$scope.isPwdEqual = true;
+		$scope.pwdChanged = function(){
+			//비밀번호를 같게 입력했는지		
+			$scope.isPwdEqual = $scope.pwd == $scope.pwd2;
+			$scope.myForm.pwd.$valid = $scope.isPwdEqual;
+			$scope.myForm.pwd.$invalid = !$scope.isPwdEqual;
 		};
 	});
 </script>
@@ -40,27 +50,43 @@
 				ng-model="id"
 				ng-required="true"
 				ng-pattern="/^[a-z].{4,9}$/"
-				ng-class="{'is-invalid': (myForm.id.$invalid || !canUseId) && myForm.id.$dirty,'is-valid': myForm.id.$valid && canUseId}"
-				ng-change="idChanged()"/>
+				ng-class="{'is-invalid': myForm.id.$dirty && myForm.id.$invalid ,'is-valid': myForm.id.$valid }"
+				ng-change="idChanged()"
+				/>
 			<small class="form-text text-muted">영문자 소문자로 시작하고 최소 5글자~10글자 이내로 입력 하세요.</small>
 			<div class="invalid-feedback">사용할수 없는 아이디 입니다.</div>
 		</div>
 		<div class="form-group">
 			<label for="pwd">비밀번호</label>
-			<input class="form-control" type="password" name="pwd" id="pwd"/>
+			<input class="form-control" type="password" name="pwd" id="pwd"
+			ng-model = "pwd"
+			ng-required = "true"
+			ng-minlength = "5"
+			ng-maxlength = "10"
+			ng-class="{'is-invalid': myForm.pwd.$dirty && myForm.pwd.$invalid, 'is-valid': myForm.pwd.$valid}"
+			ng-change= "pwdChanged()"
+			/>
 			<small class="form-text text-muted">최소 5글자~10글자 이내로 입력 하세요.</small>
 			<div class="invalid-feedback">비밀번호를 확인 하세요.</div>
 		</div>
 		<div class="form-group">
 			<label for="pwd2">비밀번호 확인</label>
-			<input class="form-control" type="password" name="pwd2" id="pwd2"/>
+			<input class="form-control" type="password" name="pwd2" id="pwd2"
+			ng-model = "pwd2"
+			ng-change = "pwdChanged()"
+			/>
 		</div>
 		<div class="form-group">
 			<label for="email">이메일</label>
-			<input class="form-control" type="text" name="email" id="email"/>
+			<input class="form-control" type="text" name="email" id="email"
+			ng-model = "email"
+			ng-required = "true"
+			ng-pattern = "/@/"
+			ng-class = "{'is-invalid': myForm.email.$dirty && myForm.email.$invalid, 'is-valid' : myForm.email.$valid }"
+			/>
 			<div class="invalid-feedback">이메일 형식에 맞게 입력해 주세요.</div>
 		</div>
-		<button class="btn btn-primary" type="submit">가입</button>
+		<button ng-disabled="myForm.$invalid" class="btn btn-primary" type="submit">가입</button>
 		<button class="btn btn-danger" type="reset">Reset</button>
 	</form>
 </div>
