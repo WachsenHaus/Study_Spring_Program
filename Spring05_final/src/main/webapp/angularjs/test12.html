@@ -18,7 +18,19 @@
 		}).success(function(data){
 			$scope.list = data;
 		});
-		console.log("${pageContext.request.contextPath}/cafe/ajax_list.do");
+		
+		$scope.next = function(){
+			$scope.pageNum++;
+			//ajax로 카페 글 목록을 요청
+			$http({
+				url: "/spring05/cafe/ajax_list.do",
+				method : "get",
+				params:{pageNum:$scope.pageNum}
+			}).success(function(data){
+				$scope.list = data;
+			});
+		};
+		
 	});
 </script>
 </head>
@@ -45,10 +57,8 @@
 					<td ng-bind = "tmp.regdate"></td>
 				</tr>
 			</tbody>
-			
 		</table>
-	
-	
+		<button  ng-click="next()" class="btn btn-outline-primary" >다음 페이지</button>
 	</div>
 </body>
 </html>
