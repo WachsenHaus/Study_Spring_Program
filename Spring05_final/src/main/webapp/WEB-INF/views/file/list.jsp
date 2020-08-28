@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <title>/file/list.do</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.css" />
+<script src="${pageContext.request.contextPath }/resources/js/angular.min.js"></script>
 </head>
 
 <body>
