@@ -5,7 +5,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>    
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 <head>
 <meta charset="UTF-8">
 <title>/file/list.do</title>
@@ -13,7 +13,7 @@
 <script src="${pageContext.request.contextPath }/resources/js/angular.min.js"></script>
 </head>
 
-<body>
+<body ng-controller="myCtrl">
 	<div class="container">
 		<a href="private/upload_form.do">파일 업로드</a>
 		<h1>파일 목록입니다.</h1>
@@ -30,6 +30,7 @@
 				</tr>
 			</thead>
 			<tbody>
+			<p>{{list}}</p>
 			<c:forEach var="tmp" items="${list }">
 				<tr>
 					<td>${tmp.num }</td>

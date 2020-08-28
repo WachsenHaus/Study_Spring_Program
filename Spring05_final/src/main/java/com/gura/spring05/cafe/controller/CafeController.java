@@ -1,6 +1,7 @@
 package com.gura.spring05.cafe.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,16 @@ import com.gura.spring05.cafe.service.CafeService;
 public class CafeController {
 	@Autowired
 	private CafeService cafeService;
+	
+	//responsebody를 붙이면 json이 응답된다. 아주좋아 정말좋아 너무좋아~
+	@RequestMapping("/cafe/ajax_list")
+	@ResponseBody
+	public List<CafeDto> ajaxList(HttpServletRequest request)
+	{	
+		return cafeService.getList2(request);
+	}
+	
+	
 	//카페 글 목록 보기 요청 처리 
 	@RequestMapping("/cafe/list")
 	public ModelAndView getList(HttpServletRequest request, 
