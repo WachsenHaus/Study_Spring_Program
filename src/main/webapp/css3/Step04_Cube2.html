@@ -1,24 +1,133 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>	
+	<meta charset="UTF-8">
+	<title>Step04_cube.html</title>
+	<style>
+	.wrapper{
+		perspective: 500px;
+		perspective-origin: 50% 50%;
+		margin-top: 200px;
+		border: 1px solid red;
+	}
+	.cube{
+		transform-style: preserve-3d;
+		transform-origin: 50% 50%;
+		position: relative;
+		width: 400px;
+		height: 400px;
+		margin: 0 auto; /* 가운데 정렬 */
+		transition: all 0.5s ease-out;
+		/* 뒤로 200px 밀어 넣기 */
+		transform: translateZ(-200px);
+	}
+	.cube > div{
+		position: absolute;
+		width: 400px;
+		height: 400px;
+		opacity: 0.6;
+		background-color: #2e272f;
+	}
+	.cube img{
+		width: 400px;
+		height: 400px;
+	}
+	.cube > div:nth-child(1){
+		transform: translateZ(200px);
+	}
+	.cube > div:nth-child(2){
+		transform: rotateY(30deg) translateZ(200px);
+	}
+	.cube > div:nth-child(3){
+		transform: rotateY(60deg) translateZ(200px);
+	}
+	.cube > div:nth-child(4){
+		transform: rotateY(90deg) translateZ(200px);
+	}
+	.cube > div:nth-child(5){
+		transform: rotateYX(120deg) translateZ(200px);
+	}
+	.cube > div:nth-child(6){
+		transform: rotateY(150deg) translateZ(200px);
+	}
+		.cube > div:nth-child(7){
+		transform: rotateY(180deg) translateZ(200px);
+	}
+	.cube > div:nth-child(8){
+		transform: rotateY(210deg) translateZ(200px);
+	}
+	.cube > div:nth-child(9){
+		transform: rotateY(240deg) translateZ(200px);
+	}
+	.cube > div:nth-child(10){
+		transform: rotateY(270deg) translateZ(200px);
+	}
+	.cube > div:nth-child(11){
+		transform: rotateY(300deg) translateZ(200px);
+	}
+	.cube > div:nth-child(12){
+		transform: rotateY(330deg) translateZ(200px);
+	}
+	.cube:hover{
+		transform: translateZ(-30px) rotateY(45deg);
+	}		
+	.control{
+		/* 인라인 요소의 가운데 정렬 */
+		text-align: center;
+	}	
+	</style>
 </head>
 <body>
-
+<div class="wrapper">
+	<div class="cube">
+		<div><img src="../resources/images/image1.png"></div>
+		<div><img src="../resources/images/image2.png"></div>
+		<div><img src="../resources/images/image3.png"></div>
+		<div><img src="../resources/images/image4.png"></div>
+		<div><img src="../resources/images/image5.png"></div>
+		<div><img src="../resources/images/image6.png"></div>
+		<div><img src="../resources/images/image1.png"></div>
+		<div><img src="../resources/images/image2.png"></div>
+		<div><img src="../resources/images/image3.png"></div>
+		<div><img src="../resources/images/image4.png"></div>
+		<div><img src="../resources/images/image5.png"></div>
+		<div><img src="../resources/images/image6.png"></div>		
+	</div>
+</div>
+<div class="control">
+	<button id="left">&larr;</button>
+	<button id="right">&rarr;</button>
+</div>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Temporibus, earum, debitis. Consectetur inventore quaerat aperiam nihil minima, vitae laudantium, ut animi illum blanditiis cum earum, fugiat nisi ipsam dolore possimus.</p>
 
 <script>
-// n각형과 한변의 길이가 width 일 때 몇도씩 돌면서 z축방향으로 얼마만큼 평행이동하면 되는지
 
-function getAngleNtz(n, width) {
-    var angle = Math.round(360 / n);
-    var tz = Math.round((width / 2) / Math.tan((angle * Math.PI) / (2 * 180)));
-    var obj = {
-      angle: angle,
-      tz: tz
-    };
-    return obj;
-  }	
-</script>
+	let rY = 0;
+	
+	function getAngleNtz(n, width) {
+	    var angle = Math.round(360 / n);
+	    var tz = Math.round((width / 2) / Math.tan((angle * Math.PI) / (2 * 180)));
+	    var obj = {
+	      angle: angle,
+	      tz: tz
+	    };
+	    return obj;
+	  }		
+	
+	const leftBtn = document.getElementById("left");
+	const rightBtn = document.getElementById("right");
+	const cube = document.querySelector(".cube");
+	let obj = getAngleNtz(12,40);
+	leftBtn.addEventListener("click",() => {
+		
+		//rY -= 90;
+		cube.style.transform = `translateZ(${obj.tz}px) rotateY(${obj.angle}deg)`;
+	});
+	rightBtn.addEventListener("click",()=>{
+		obj = getAngleNtz(12,80);
+		//rY += 90;
+		cube.style.transform = `translateZ(${obj.tz}px) rotateY(${rY}deg)`;
+	});
+</script>			
 </body>
 </html>
