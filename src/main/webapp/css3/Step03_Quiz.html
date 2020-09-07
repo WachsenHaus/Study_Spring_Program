@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>	
+</head>
+<body>
+<style>
+	.wrapper{
+		text-align: center;
+	}
+	.wrapper img{
+		transition:transfrom 0.4s ease-out;
+	}
+
+</style>
+</body>
+	<h1>transform 테스트</h1>
+	<button id="leftBtn">좌</button>
+	<button id="rightBtn">우</button>
+	<button id="rotateBtn">회전</button>
+	<div class="wrapper">
+		<img src="../resources/images/kim1.png" alt="" />
+	</div>
+	<script src="../resources/js/jquery-3.5.1.js"></script>
+	<script>
+	let x= 0;
+	let angle = 0;
+	const leftBtn = document.getElementById("leftBtn");
+	const rightBtn = document.getElementById("rightBtn");
+	const rotateBtn = document.getElementById("rotateBtn");
+	const wrapper = document.querySelector(".wrapper img");
+	const LEFT = "left";
+	const RIGHT = "right";
+	const ROTATE = "rotate";
+	
+	const move = function(direction){
+		switch (direction) {
+		case LEFT:
+			x -= 50;
+			break;
+		case RIGHT:
+			x += 50;
+			break;
+		case ROTATE:
+			angle +=45;
+			break;
+		default:
+			break;
+		}
+		wrapper.style.transform =  `translateX(${x}px) rotate(${angle}deg)`;
+	}	
+	leftBtn.addEventListener("click",() => {
+		move(LEFT);
+	});
+	rightBtn.addEventListener("click",() => {
+		move(RIGHT);
+	});
+	rotateBtn.addEventListener("click",() => {
+		move(ROTATE);
+	});
+	
+
+
+	</script>
+</html>
