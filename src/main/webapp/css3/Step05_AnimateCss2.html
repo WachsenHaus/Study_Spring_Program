@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>	
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+
+<style>
+.animate__fadeIn{
+   animation-duration: 0.35s;
+}
+</style>
+</head>
+<body>
+<input type="text" id="inputMsg" placeholder="메세지 입력" />
+<button id="addBtn">추가</button>
+<ul id="msgList">
+
+</ul>
+<script></script>
+<script>
+const addBtn = document.getElementById("addBtn");
+const ul = document.getElementById("msgList");
+const inputMsg = document.getElementById("inputMsg");
+addBtn.addEventListener("click",() => {
+	const li = document.createElement("li");
+	li.innerHTML = inputMsg.value;
+	li.classList.add("animate__animated");
+	li.classList.add("animate__fadeIn");
+	const btn  = document.createElement("button");
+	btn.addEventListener("click", function(){
+		this.parentNode.remove();
+	});
+	btn.innerHTML = "삭제";
+	ul.appendChild(li);
+	li.appendChild(btn);
+	
+});
+</script>
+</body>
+</html>

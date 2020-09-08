@@ -43,6 +43,8 @@
 	        <li><a href="css3/Step04_3dTransform.html">css3 테스트4</a></li>
 	        <li><a href="css3/Step04_Example.html">css3 테스트4</a></li>
 	        <li><a href="css3/Step04_Cube.html">css3 테스트_큐브</a></li>
+	        <li><a href="css3/Step04_Cube2.html">css3 테스트_큐브2</a></li>
+	        <li><a href="css3/Step05_Animation.html">css3 테스트5</a></li>
 		</ul>
 	</div>
 </body>
