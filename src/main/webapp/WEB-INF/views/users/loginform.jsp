@@ -19,7 +19,7 @@
 		animation-iteration-count: 1; 
 	}
 	.box{
-	box-shadow: inset 16px 13px 25px -8px rgba(63,112,56,1);
+	box-shadow: 24px 10px 12px 7px rgba(131,131,199,1);
 	padding: 10px;
 	border-radius: 10px;
 	}
