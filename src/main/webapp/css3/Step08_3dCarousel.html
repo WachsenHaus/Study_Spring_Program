@@ -18,6 +18,7 @@
 		transform-style: preserve-3d;
 		position: relative;
 		height: 500px;
+		
 	}
 	/* transition 을 동적으로 적용하기 위해 */
 	.transition-effect{
@@ -28,6 +29,7 @@
 		position: absolute;
 		height: 400px;
 		border: 1px solid red;
+		backface-visibility: hidden;
 	}
 	.control{
 		text-align: center;
@@ -75,8 +77,12 @@
 		<button id="prevBtn">&larr;</button>
 		<button id="nextBtn">&rarr;</button>
 	</div>
+	<p>phase : <strong id="phase"></strong></p>
+	<p>direction : <strong id="direction"></strong></p>
+	<p>distance : <strong id="distance"></strong></p>
 </div>
 <script src="../resources/js/jquery-3.5.1.js"></script>
+<script src="../resources/js/jquery.touchSwipe.js"></script>
 <script>
 	//z 축 평행이동값과 
 	var tz;
@@ -142,6 +148,9 @@
 	}
 	
 	
+	
+
+	
 	// n 각형과 한변의 길이가 width 일때 몇도씩 돌면서 z 축방향으로 얼마만큼 평행이동하면 되는지 
 	// 에 대한 정보를 담고있는 object 를 리턴하는 함수 
   	function getAngleNtz(n, width) {
@@ -153,6 +162,67 @@
 	    };
 	    return obj;
 	 }
+	
+	let rotateFlag = false;
+	let isMoving = false;
+	let move = 0;
+	let speed = 0;
+	// .carousle에 일어나는 터치 이벤트(마우스이벤트 겸용) 처리 하기
+	$(".carousel").swipe({
+		swipeStatus : function(event,phase,direction,distance){
+			$("#phase").text(phase);
+			$("#direction").text(direction);
+			$("#distance").text(distance);
+			console.log(phase);
+			switch (phase) {
+			case "start":
+				rotateFlag = true;
+				break;
+			case "end" :
+				if(rotateFlag === true)
+				{
+					//초기화
+					direction === "left" ? rY +=  move : rY -= move;
+					move = 0;
+					
+					//회전
+					$(".carousel").addClass("transition-effect");
+					direction === "left" ? rY -= angle : rY += angle;
+					rotate();
+					rotateFlag = false;
+				}
+				break;
+			case "move" :
+				speed = distance/100;
+				direction === "left" ? rY -=  speed : rY += speed;
+				rotate();
+				move += speed;
+				break;
+			case "cancel" :
+				direction === "left" ? rY +=  move : rY -= move;
+				rotate();
+				//초기화
+				move = 0;
+				rotateFlag = false;
+				break;
+			default:
+				break;
+			}
+		},
+		allowPageScroll : "vertical",
+		threshold:100
+	});
+	
+	$(".carousel").on("mouseout",function(){
+		if(rotateFlag)
+		{
+			direction === "left" ? rY +=  move : rY -= move;
+			rotate();
+			//초기화
+			move = 0;
+			rotateFlag = false;
+		}
+	});
 </script>
 </body>
 </html>
