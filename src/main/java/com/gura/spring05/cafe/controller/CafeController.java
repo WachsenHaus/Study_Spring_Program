@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gura.spring05.cafe.dao.CafeDao;
 import com.gura.spring05.cafe.dto.CafeCommentDto;
 import com.gura.spring05.cafe.dto.CafeDto;
 import com.gura.spring05.cafe.service.CafeService;
@@ -23,6 +24,15 @@ import com.gura.spring05.cafe.service.CafeService;
 public class CafeController {
 	@Autowired
 	private CafeService cafeService;
+	
+	@Autowired
+	private CafeDao cafeDao;
+	@RequestMapping("/cafe/ajax_detail")
+	@ResponseBody
+	public CafeDto ajaxDetail(@RequestParam int num)
+	{
+		return cafeDao.getData(num);
+	}
 	
 	//responsebody를 붙이면 json이 응답된다. 아주좋아 정말좋아 너무좋아~
 	@RequestMapping("/cafe/ajax_list")
