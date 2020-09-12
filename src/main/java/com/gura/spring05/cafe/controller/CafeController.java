@@ -25,6 +25,9 @@ public class CafeController {
 	@Autowired
 	private CafeService cafeService;
 	
+	
+
+	
 	@Autowired
 	private CafeDao cafeDao;
 	@RequestMapping("/cafe/ajax_detail")

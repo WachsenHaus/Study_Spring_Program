@@ -5,11 +5,15 @@
 <title>/angularjs/index.html</title>
 <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
-<link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>   
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css"/>  
 <style>
 	/* .page-change-animation 클래스를 가지고 있는 요소가 만들어 질때 적용할 애니매이션 */
 	.page-change-animation.ng-enter{
 		animation: fadeIn 0.4s ease-out;
+	}
+	.back-drop{
+		background-color: rgb(0,0,0); /* Fallback color */
+		background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	}
 </style>
 <script src="../resources/js/angular.min.js"></script>
@@ -17,7 +21,7 @@
 <script src="../resources/js/angular-animate.min.js"></script>
 <script>
 	var cafeApp=angular.module("cafeApp", ["ngRoute","ngAnimate"]);
-	cafeApp.controller("cafeListCtrl", function($scope, $http){
+	cafeApp.controller("cafeListCtrl", function($scope, $http,$rootScope){
 		$http({
 			url:"/spring05/cafe/ajax_list.do",
 			method:"GET"
@@ -26,6 +30,7 @@
 			console.log(data);
 			//cafeList 라는 모델에 데이터 대입하기
 			$scope.cafeList=data;
+			$rootScope.viewCount++;
 		});
 	});
 	
@@ -52,22 +57,111 @@
 	cafeApp.config(function($routeProvider){
 		//$routeProvider 객체를 이용해서 페이지 내에서의 이동 설정하기 
 		$routeProvider
-		.when("/home", {templateUrl:"views/home.html"})
-		.when("/cafe_list", {templateUrl:"views/cafe_list.html", controller:"cafeListCtrl"})
-		.when("/cafe_detail/:num", {templateUrl:"views/cafe_detail.html", controller:"cafeDetailCtrl"})
+		.when("/home", {title:"인덱스 페이지", currentPage:"home", templateUrl:"views/home.html"})
+		.when("/cafe_list", {title: "목록보기 페이지", currentPage:"cafe_list", templateUrl:"views/cafe_list.html", controller:"cafeListCtrl"})
+		.when("/cafe_detail/:num", {title:"자세히보기 페이지", templateUrl:"views/cafe_detail.html", controller:"cafeDetailCtrl"})
 		.otherwise({redirectTo:"/home"});
+	});
+	//초기화 되는 시점에 무언가 동작을 하고(준비) 싶을 때
+	cafeApp.run(function($rootScope, $route, $http){
+		/*
+			$rootScope는 최상위 영역 객체
+			$route 페이지 라우트에 관련된 객체
+		*/
+		//페이지 전환이 완료 되었을때 호출되는 함수 등록
+		$rootScope.$on("$routeChangeSuccess",function(){
+			//페이지 타이틀 바꿔주기
+			document.title= $route.current.title;
+			$rootScope.currentPage =  $route.current.currentPage;
+		});
+		$rootScope.myName = "김구라";
+		$rootScope.viewCount = 0;
+		$rootScope.currentPage = "";
+		
+		//로그인 여부를 요청해서 로그인된 아이디를 응답밥느다.
+		$http({
+			url: "/spring05/users/ajax_login_check.do",
+			method:"GET"
+		}).success(function(data){
+			//data => {id:"gura" or null}
+			console.log(data);
+			$rootScope.id=data.id;
+		});
+		
+		$rootScope.onSubmit=function(){
+			$http({
+	            url:"/spring05/users/ajax_login.do",
+                method:"post",
+                params:{
+                	id : $rootScope.inputId, pwd : $rootScope.inputPwd
+                },
+                headers:{"Content-Type":"application/x-www-form-urlencoded;charset=utf-8"}				
+			}).success(function(data){
+				console.log(data);
+				if(data.isSuccess){
+					$rootScope.id = data.id;
+					$rootScope.isLoginFail = false;
+				}else{
+					$rootScope.isLoginFail = true;
+				}
+			});
+		};
+		$rootScope.logout = function(){
+			$http({
+				url: "/spring05/users/ajax_logout.do",
+				method:"GET"
+			}).success(function(data){
+				$rootScope.id= null;
+			});
+		};		
 	});
 </script>
 </head>
 <body>
 <div class="container">
-	<h1>Router 테스트 예제</h1>
-	<ul>
-		<li><a href="#home">Home</a></li>
-		<li><a href="#cafe_list">목록보기</a></li>
+	<p data-ng-show="id != null"> 
+		<strong>{{id}}</strong>님 로그인중...
+		<button class="btn btn-warning btn-sm" data-ng-click="logout()">로그아웃</button>
+	</p>
+	<p data-ng-show="id == null"><button data-ng-click="isShowModal=true">로그인하기</button></p>
+	
+	<h1>Router 테스트 예제<strong>{{myName}}{{viewCount}}</strong></h1>
+	<ul class="nav nav-pills">
+		<li class="nav-item"><a data-ng-class="{active:currentPage=='home'}" class="nav-link" href="#home">Home</a></li>
+		<li class="nav-item"><a data-ng-class="{active:currentPage=='cafe_list'}" class="nav-link" href="#cafe_list">목록보기</a></li>
 	</ul>
 	<div data-ng-view class="page-change-animation"></div>
 </div>
+<div class="modal back-drop" data-ng-show="isShowModal" style="display:block"; tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">로그인 폼</h5>
+        <button data-ng-click="isShowModal=false" type="button" class="close"  aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form data-ng-submit="onSubmit()">
+      		<div class="form-group">
+	      		<div class="form-group">
+	      			<label for="id">아이디</label>
+	      			<input data-ng-model="inputId" type="text" name="id" id="id" class="form-control" />
+	      		</div>
+	      		<div class="form-group">
+	      			<label for="pwd">비밀번호</label>
+	      			<input data-ng-model="inputPwd" type="password" name="pwd" id="pwd"  class="form-control"/>
+	      		</div>
+      		</div>
+	        <button type="reset" class="btn btn-secondary">취소</button>
+	        <button type="submit" class="btn btn-primary">로그인</button>
+      	</form>
+      	<p data-ng-show="isLoginFail" class="alert alert-danger">아이디 혹은 비밀번호가 틀려요</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
 
