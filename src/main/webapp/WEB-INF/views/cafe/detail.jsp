@@ -233,11 +233,65 @@
 			</c:forEach>
 		</ul>
 	</div>
-
+	<hr />
+	<h1>글 목록 입니다.</h1>
+	<table class="table table-striped table-sm">
+		<thead class="thead-dark">
+			<tr>
+				<th>글번호</th>
+				<th>작성자</th>
+				<th>제목</th>
+				<th>조회수</th>
+				<th>등록일</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		<c:forEach var="tmp" items="${list }">
+			<tr>
+				<td>${tmp.num }</td>
+				<td>${tmp.writer }</td>
+				<td><a href="detail.do?num=${tmp.num }&condition=${condition }&keyword=${encodedK }">${tmp.title }</a></td>
+				<td>${tmp.viewCount }</td>
+				<td>${tmp.regdate }</td>
+				<td>
+				<c:if test="${tmp.writer eq id }">
+					<a href="private/delete.do?num=${tmp.num }">삭제</a>
+				</c:if>
+				</td>
+			</tr>
+		</c:forEach>		
+		</tbody>
+	</table>
+	<div class="page-display">
+		<ul class="pagination pagination-sm">
+		<c:if test="${startPageNum ne 1 }">
+			<li class="page-item"><a class="page-link" href="list.do?pageNum=${startPageNum-1 }&condition=${condition }&keyword=${encodedK }">Prev</a></li>
+		</c:if>
+		<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
+			<c:choose>
+				<c:when test="${i eq pageNum }">
+					<li class="page-item active"><a class="page-link" href="list.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a></li>
+				</c:when>
+				<c:otherwise>
+					<li class="page-item"><a class="page-link" href="list.do?pageNum=${i }&condition=${condition }&keyword=${encodedK }">${i }</a></li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+		<c:if test="${endPageNum lt totalPageCount }">
+			<li class="page-item"><a class="page-link" href="list.do?pageNum=${endPageNum+1 }&condition=${condition }&keyword=${encodedK }">Next</a></li>
+		</c:if>
+		</ul>	
+	</div>
+	<hr style="clear:left;"/>	
 </div>
+
+
+<!--  
 <div class="loader">
 	<img src="${pageContext.request.contextPath }/resources/images/ajax-loader.gif"/>
 </div>
+-->
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.5.1.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery.form.min.js"></script>
 <script>
@@ -322,16 +376,18 @@
 		}
 	}
 	
+
+	/*
 	//페이지가 처음 로딩될때 1page 를 보여준다고 가정
 	var currentPage=1;
 	//전체 페이지의 수를 javascript 변수에 담아준다.
 	var totalPageCount=${totalPageCount};
 	
-	/*
+	
 		페이지 로딩 시점에 document 의 높이가 window 의 실제 높이 보다 작고
 		전체 페이지의 갯수가(totalPageCount) 현재페이지(currentPage)
 		보다 크면 추가로 댓글을 받아오는 ajax 요청을 해야한다.
-	*/
+	
 	var dH=$(document).height();//문서의 높이
 	var wH=window.screen.height;//window 의 높이
 	if(dH < wH && totalPageCount > currentPage){
@@ -387,6 +443,7 @@
 			});
 		}
 	});		
+	*/
 </script>
 </body>
 </html>

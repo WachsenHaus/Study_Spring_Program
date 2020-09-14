@@ -53,7 +53,7 @@ public class CafeController {
 	
 	
 	//카페 글 목록 보기 요청 처리 
-	@RequestMapping("/cafe/list")
+	@RequestMapping(value= {"/cafe/list"})
 	public ModelAndView getList(HttpServletRequest request, 
 			ModelAndView mView) {
 		cafeService.getList(request);
