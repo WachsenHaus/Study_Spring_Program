@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gura.spring05.cafe.dao.CafeDao;
 import com.gura.spring05.cafe.dto.CafeCommentDto;
 import com.gura.spring05.cafe.dto.CafeDto;
 import com.gura.spring05.cafe.service.CafeService;
@@ -23,6 +24,18 @@ import com.gura.spring05.cafe.service.CafeService;
 public class CafeController {
 	@Autowired
 	private CafeService cafeService;
+	
+	
+
+	
+	@Autowired
+	private CafeDao cafeDao;
+	@RequestMapping("/cafe/ajax_detail")
+	@ResponseBody
+	public CafeDto ajaxDetail(@RequestParam int num)
+	{
+		return cafeDao.getData(num);
+	}
 	
 	//responsebody를 붙이면 json이 응답된다. 아주좋아 정말좋아 너무좋아~
 	@RequestMapping("/cafe/ajax_list")
@@ -40,7 +53,7 @@ public class CafeController {
 	
 	
 	//카페 글 목록 보기 요청 처리 
-	@RequestMapping("/cafe/list")
+	@RequestMapping(value= {"/cafe/list"})
 	public ModelAndView getList(HttpServletRequest request, 
 			ModelAndView mView) {
 		cafeService.getList(request);
@@ -80,12 +93,14 @@ public class CafeController {
 		mView.setViewName("cafe/updateform");
 		return mView;
 	}
+	
 	@RequestMapping(value="/cafe/private/update", method=RequestMethod.POST)
 	public ModelAndView update(CafeDto dto, ModelAndView mView) {
 		cafeService.updateContent(dto);
 		mView.setViewName("cafe/update");
 		return mView;
 	}
+
 	@RequestMapping("/cafe/private/delete")
 	public ModelAndView delete(int num, HttpServletRequest request,
 			ModelAndView mView) {

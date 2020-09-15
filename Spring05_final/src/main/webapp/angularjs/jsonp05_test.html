@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jsonp_choiyounghoon</title>	
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container">
+<h5>vanlina js로 구현한 jsonp입니다.</h1>
+<h2>jsonp 로그인 폼입니다.</h1>
+<div id="section">
+
+</div>
+<script>
+"use strict";
+const myUrl = "http://localhost:8888/spring05/api/signin.do?callback=signin";
+
+const makeForm = function(){
+	const myBody = document.getElementById("section");
+	myBody.innerHTML = 
+		`
+		<form id="myForm">
+			<div class="form-controller">
+				<input type="text" name="id" placeholder="아이디..."/>
+			 </div>
+			 <div class="form-controller">
+				<input type="text" name="pwd" placeholder="비밀번호..."/>
+			 </div>
+			 <button id="btnSubmit" type="submit">로그인</button>
+		 </form>
+		`;
+	console.log("성공적으로 생성되었습니다.");
+};
+
+const init = function(){
+	//폼요소 생성
+	makeForm();
+	const myForm = document.getElementById("myForm");
+	myForm.addEventListener("submit", function(e){
+		e.preventDefault();
+		console.log('aa');
+		const formData = new FormData(this);
+		const searchParams = new URLSearchParams();
+		for(const pair of formData)
+		{
+			searchParams.append(pair[0],pair[1]);
+		}
+		fetch(myUrl,{
+			method:'POST',
+			body:searchParams
+		}).then(function (response){
+			console.log(response);
+			let a = response.text()
+			console.log(a);
+			return a;
+		}).then(function (text){
+			console.log(text);
+		}).catch(function(error){
+			console.error(error);
+		});		
+	});
+};
+init();
+
+const successSign = function(){
+	
+};
+const failSign = function(){
+	
+};
+</script>
+</body>
+</html>
