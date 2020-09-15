@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>html이랍니다 으헤헤</title>
+<link rel="stylesheet" href="../resources/css/bootstrap.css" />
+<script src="../resources/js/angular.min.js"></script>
+<script>
+	var cafeApp = angular.module("cafeApp", []);
+	cafeApp.controller("cafeCtrl", function($scope, $http){
+		//페이지 로딩되는 시점에 실행되는 영역
+		$scope.pageNum=1;
+		$scope.notOnePage = false;
+		$scope.pageList = {};
+		$scope.rangePage = [];
+		
+		//ajax로 카페 글 목록을 요청
+		$http({
+			url: "/spring05/cafe/ajax_list.do",
+			method : "get",
+			params:{pageNum:$scope.pageNum}
+		}).success(function(data){
+			$scope.list = data;
+			$scope.getPage();
+		});
+		
+		$scope.getPage = function(){
+		console.log($scope.pageNum);
+			$http({
+				url: "/spring05/cafe/ajax_list2.do",
+				method : "get",
+				params:{pageNum:$scope.pageNum}
+			}).success(function(data){
+				$scope.pageList = data;
+				$scope.notOnePage = ($scope.pageList.startPageNum === 1) ? true : false;
+				$scope.isEndPage = $scope.pageList.endPageNum < $scope.pageList.totalPageCount ? true:false;
+				$scope.rangePage = [];
+				for(let i = $scope.pageList.startPageNum; i<= $scope.pageList.endPageNum; i++)
+				{
+					$scope.rangePage.push(i);		
+				}
+				console.log($scope.rangePage);
+			});
+		};
+		
+
+		$scope.next = function(){
+			$scope.pageNum = $scope.pageList.endPageNum + 1;
+			//ajax로 카페 글 목록을 요청
+			$http({
+				url: "/spring05/cafe/ajax_list.do",
+				method : "get",
+				params:{pageNum:$scope.pageNum}
+			}).success(function(data){
+				$scope.list = data;
+				$scope.getPage();
+			});
+		};
+		$scope.prev = function(){
+			$scope.pageNum = $scope.pageList.startPageNum -1;
+			//ajax로 카페 글 목록을 요청
+			$http({
+				url: "/spring05/cafe/ajax_list.do",
+				method : "get",
+				params:{pageNum:$scope.pageNum}
+			}).success(function(data){
+				$scope.list = data;
+				$scope.getPage();
+			});
+		};
+		
+		$scope.movePage = function(num){
+			$scope.pageNum = num;
+			
+			console.log($scope);
+			//ajax로 카페 글 목록을 요청
+			$http({
+				url: "/spring05/cafe/ajax_list.do",
+				method : "get",
+				params:{pageNum:$scope.pageNum}
+			}).success(function(data){
+				$scope.list = data;
+				$scope.getPage();
+			});
+		};
+	});
+</script>
+</head>
+<body ng-app="cafeApp">
+	<div class="container" ng-controller="cafeCtrl">
+		<h1>카페 글 목록 입니다.</h1>
+		<table class="table table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>글번호</th>
+					<th>작성자</th>
+					<th>제목</th>
+					<th>조회수</th>
+					<th>등록일</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat = "tmp in list">
+					<td>{{tmp.num}}</td>
+					<td>{{tmp.writer}}</td>
+					<td>{{tmp.title}}</td>
+					<td ng-bind = "tmp.viewCount"></td>
+					<td ng-bind = "tmp.regdate"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		
+		<div class="page-display">
+			<ul class="pagination pagination-sm">
+				<li ng-if="!notOnePage"><a class="page-link"  ng-click = "prev()">Prev</a></li>
+				<div ng-repeat = "tmp in rangePage">
+					<li ng-class="{'active': active && (pageList.pageNum == tmp)}" class="page-item"><a class="page-link"  ng-click = "movePage(tmp); active=true">{{tmp }}</a></li>
+				</div>
+				<li ng-if="isEndPage" class="page-item"><a class="page-link"  ng-click = "next()">Next</a></li>
+			</ul>	
+		</div> 
+	</div>
+</body>
+</html>
